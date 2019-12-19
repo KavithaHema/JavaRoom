@@ -12,11 +12,8 @@ public class EmailIdGenerator
 		  String[] fullNames = S.split("; ");
 		  ArrayList<String> emailIDs = new ArrayList<String>();
 		  ArrayList<String> uniEmailIDs = new ArrayList<String>();	
-		  LinkedHashMap<String, String> lhmEmail = new LinkedHashMap<String, String>(); 
-				  
-		  ArrayList<String> tempfullIdNames = new ArrayList<String>();
+		  LinkedHashMap<String, String> lhmEmail = new LinkedHashMap<String, String>();
 		  int[] counter = {1};
-		  
 		  
 		  /* Truncating last name, 
 		  eliminating '-' from the last name,
@@ -25,19 +22,18 @@ public class EmailIdGenerator
 		  
 		  for(int i=0;i<fullNames.length;i++)
 		  {
-			  fullNames[i]=fullNames[i].toLowerCase();
+			  fullNames[i]=fullNames[i];
 			  String[] tempNames = fullNames[i].split(" ");
 			  int lastnameIndex = tempNames.length -1;
 			  
 					  
-			  String tempLastname = tempNames[lastnameIndex].replace("-", "");
+			  String tempLastname = tempNames[lastnameIndex].replace("-", "").toLowerCase();
 			  if (tempLastname.length()>8)
 			  	{
 				  tempLastname = tempLastname.substring(0, 7);					  
-			  	}
-			  
-			  tempfullIdNames.add(tempNames[0]+"."+tempLastname);			  
-			  emailIDs.add(tempNames[0]+"."+tempLastname+C);
+			  	}			  
+					  
+			  emailIDs.add(tempNames[0].toLowerCase()+"."+tempLastname+C);
 			  lhmEmail.put(fullNames[i], emailIDs.get(i));		  
 			  
 		  }
@@ -47,32 +43,38 @@ public class EmailIdGenerator
 		   * so that the integer increments sequentially for every duplicate set of names
 		   * 
 		   */
-		  Set<String> hstUnique = new HashSet<String>(emailIDs);
-		 
+		  Set<String> hstUnique = new HashSet<String>(emailIDs);		  
 		  for(String email : hstUnique)
 		  {
+			  String[] tempEmail=email.split("@");
 			  counter[0] = 1;
 				if (Collections.frequency(emailIDs, email)>1)
-				{
+				{					
 					for(int i=0;i<Collections.frequency(emailIDs, email);i++)
-					{						
-						String[] tempEmail=email.split("@");												
+					{	
 						lhmEmail.forEach((fName,eID)-> 
 						{							
 							if(eID.equals(email))
-							{								
+							{											
 								String temp = tempEmail[0]+ counter[0]+"@example.com";								    					  
-								lhmEmail.put(fName, temp.toLowerCase());									
+								lhmEmail.put(fName, temp);									
 								counter[0] = counter[0]+1;									
-							}											
+							}										
 						 });					
 							
 					 }
 						
 				 }
-			}
-		    System.out.println("Employee Names: "+ lhmEmail.keySet());
-		  	System.out.println("Employee Email IDs: "+ lhmEmail.values());
+			}		
+	      Set set = lhmEmail.entrySet(); // Get a set of the entries
+	      Iterator itr = set.iterator(); // Get an iterator
+		  while (itr.hasNext())
+		  {
+			  Map.Entry me = (Map.Entry)itr.next();
+			  System.out.print("Employee Name & Email ID: " + me.getKey() + " -> " );
+			  System.out.println(me.getValue());
+		  }
+		  System.out.println();
 		  	
 	 }		  	  
 		 
