@@ -47,35 +47,39 @@ public class EmailIdGenerator
 		  for(String email : hstUnique)
 		  {
 			  String[] tempEmail=email.split("@");
-			  counter[0] = 1;
+			  
 				if (Collections.frequency(emailIDs, email)>1)
-				{					
-					for(int i=0;i<Collections.frequency(emailIDs, email);i++)
-					{	
-						lhmEmail.forEach((fName,eID)-> 
-						{							
-							if(eID.equals(email))
-							{											
+				{	
+					counter[0] = 1;
+					lhmEmail.forEach((fName,eID)-> 
+					{							
+						if(eID.equals(email))
+						{			
+							if(counter[0]!=1)
+							{
 								String temp = tempEmail[0]+ counter[0]+"@example.com";								    					  
-								lhmEmail.put(fName, temp);									
-								counter[0] = counter[0]+1;									
-							}										
-						 });					
-							
-					 }
-						
+								lhmEmail.put(fName, temp);
+							}
+							counter[0] = counter[0]+1;
+						}										
+					 });	
 				 }
 			}		
-	      Set set = lhmEmail.entrySet(); // Get a set of the entries
+	 /*   Set set = lhmEmail.entrySet(); // Get a set of the entries
 	      Iterator itr = set.iterator(); // Get an iterator
 		  while (itr.hasNext())
 		  {
 			  Map.Entry me = (Map.Entry)itr.next();
-			  System.out.print("Employee Name & Email ID: " + me.getKey() + " -> " );
+			  System.out.print("Employee Name & Email Id: " + me.getKey() + " -> " );
 			  System.out.println(me.getValue());
 		  }
 		  System.out.println();
-		  	
+	*/	
+		 lhmEmail.forEach((name,id)->
+		 {
+			  System.out.print("Employee Name & Email Id: " + name + " -> "+id );
+			  System.out.println();
+		 });
 	 }		  	  
 		 
 		  
